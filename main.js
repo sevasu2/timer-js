@@ -1,59 +1,51 @@
-function stopWatch(options) {
-  var displayElm = document.getElementsByClassName("display")[0];
-  var timer = null;
-  var startButton = document.getElementsByClassName("startButton")[0];
+function stopWatch(options = {}) {
+  const addMessage = (message) => {
+    const messageElm = document.createElement("div");
+    const now = new Date();
+    messageElm.innerText = `${now.getHours()}時${now.getMinutes()}分${now.getSeconds()}秒 ${message}`;
+    messageElm.classList = ["message"];
+    logElm.appendChild(messageElm);
+  };
 
-  startButton.addEventListener("click", function () {
+  let { color, backgroundColor } = options;
+
+  color = color || "lightblue";
+  backgroundColor = backgroundColor || "black";
+
+  const display = document.getElementsByClassName("display")[0];
+  display.style.color = color;
+  display.style.backgroundColor = backgroundColor;
+
+  const logElm = document.querySelector(".log");
+  let timer = null;
+
+  const startButton = document.getElementsByClassName("startButton")[0];
+  startButton.addEventListener("click", () => {
     if (timer === null) {
-      console.log("start:" + timer);
-      var seconds = 0;
-      timer = setInterval(function () {
+      let seconds = 0;
+      display.innerText = seconds;
+
+      timer = setInterval(() => {
         seconds++;
-        displayElm.innerText = seconds;
-        console.log(seconds);
+        display.innerText = seconds;
       }, 1000);
 
       addMessage("開始");
     }
   });
 
-  var stopButton = document.getElementsByClassName("stopButton")[0];
-  stopButton.addEventListener("click", function () {
+  const stopButton = document.getElementsByClassName("stopButton")[0];
+  stopButton.addEventListener("click", () => {
     if (timer !== null) {
-      console.log("stop:" + timer);
       clearInterval(timer);
       timer = null;
 
       addMessage("終了");
     }
   });
-
-  var logElm = document.querySelector(".log");
-
-  function addMessage(message) {
-    var messageElm = document.createElement("div");
-    var now = new Date();
-    messageElm.innerText =
-      now.getHours() +
-      "時間" +
-      now.getMinutes() +
-      "分" +
-      now.getSeconds() +
-      "秒" +
-      message;
-    messageElm.classList = ["message"];
-    logElm.appendChild(messageElm);
-  }
-
-  options = options || {};
-  var color = options.color || "lightbule";
-  var backgroundColor = options.backgroundColor || "black";
-  var displayElm = document.getElementsByClassName("display")[0];
-  displayElm.getElementsByClassName.color = color;
-  displayElm.getElementsByClassName.backgroundColor = backgroundColor;
 }
 
-var options = {
+const options = {
   color: "limegreen",
   backgroundColor: "#333",
 };
